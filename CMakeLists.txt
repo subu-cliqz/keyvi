@@ -60,7 +60,7 @@ target_link_libraries(units_test_all tpie ${Boost_LIBRARIES} ${ZLIB_LIBRARIES})
 
 add_executable(keyvirust_test keyvi/src/cpp/rust_api/rust_test.cpp)
 
-add_library(keyvirust STATIC keyvi/src/cpp/rust_api/rust_dictionary.cpp keyvi/src/cpp/rust_api/rust_match.cpp)
+add_library(keyvirust STATIC keyvi/src/cpp/rust_api/c_api.cpp)
 
 target_link_libraries(keyvirust tpie ${Boost_LIBRARIES} ${ZLIB_LIBRARIES})
 target_link_libraries(keyvirust_test keyvirust)

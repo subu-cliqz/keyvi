@@ -2,13 +2,14 @@
 // Created by Narek Gharibyan on 8/29/17.
 //
 
-#include "rust_dictionary.h"
+#include "c_api.h"
 #include <iostream>
 
-using namespace keyvi::rust;
 
 int main() {
-    RustDictionary dict("/Users/narek/projects/keyvi/test.kv");
-    std::cout << dict.GetStatistics() << std::endl;
-    std::cout << dict["a"].GetValueAsString() << std::endl;
+    Keyvi_Dictionary dict = keyvi_create_dictionary("/Users/narek/projects/keyvi/test.kv");
+
+    std::cout << keyvi_get_dictionary_stats(dict) << std::endl;
+
+    keyvi_destroy_dictionary(dict);
 }
