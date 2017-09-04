@@ -1,0 +1,9 @@
+[package]
+name = "rskeyvi"
+version = "0.1.0"
+build = "build.rs"
+authors = ["Subu <subu@cliqz.com>"]
+
+[build-dependencies]
+bindgen = "0.30.0"
+
