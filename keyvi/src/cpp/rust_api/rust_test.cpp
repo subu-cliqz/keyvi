@@ -7,10 +7,20 @@
 
 
 int main() {
-    Keyvi_Dictionary dict = keyvi_create_dictionary("/Users/narek/projects/keyvi/test.kv");
+    auto dict = keyvi_create_dictionary("/Users/narek/projects/keyvi/test.kv");
+    auto stats = keyvi_dictionary_get_statistics(dict);
+    auto match = keyvi_dictionary_get(dict, "a");
+    auto match_empty = keyvi_dictionary_get(dict, "aasdasd");
+    auto value = keyvi_match_get_value_as_string(match);
 
-    std::cout << keyvi_get_dictionary_stats(dict) << std::endl;
-    std::cout << keyvi_get_dictionary_value(dict, "a") << std::endl;
+    std::cout << stats << std::endl;
+    std::cout << keyvi_match_get_score(match)<< std::endl;
+    std::cout << keyvi_match_is_empty(match)<< std::endl;
+    std::cout << keyvi_match_is_empty(match_empty)<< std::endl;
+    std::cout << value << std::endl;
 
-    keyvi_destroy_dictionary(dict);
+    keyvi_string_destroy(value);
+    keyvi_match_destroy(match);
+    keyvi_string_destroy(stats);
+    keyvi_dictionary_destroy(dict);
 }

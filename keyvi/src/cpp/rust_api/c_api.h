@@ -9,34 +9,36 @@
 extern "C" {
 #endif
 
-namespace keyvi {
-    namespace dictionary {
-        class Dictionary;
+struct keyvi_dictionary;
+struct keyvi_match;
 
-        class Match;
-    }
-}
 
-struct Keyvi_Dictionary {
-    keyvi::dictionary::Dictionary *ptr_;
-};
-
-struct Keyvi_Match {
-    keyvi::dictionary::Match *ptr_;
-};
-
-Keyvi_Dictionary
-keyvi_create_dictionary(const char *filename);
+keyvi_dictionary *
+keyvi_create_dictionary(const char *);
 
 void
-keyvi_destroy_dictionary(Keyvi_Dictionary);
+keyvi_dictionary_destroy(const keyvi_dictionary *);
 
-const char *
-keyvi_get_dictionary_stats(Keyvi_Dictionary);
+void
+keyvi_string_destroy(char *str);
 
-const char *
-keyvi_get_dictionary_value(Keyvi_Dictionary, const char *);
+char *
+keyvi_dictionary_get_statistics(const keyvi_dictionary *);
 
+keyvi_match *
+keyvi_dictionary_get(const keyvi_dictionary *, const char *);
+
+void
+keyvi_match_destroy(const keyvi_match *);
+
+bool
+keyvi_match_is_empty(const keyvi_match *);
+
+double
+keyvi_match_get_score(const keyvi_match *);
+
+char *
+keyvi_match_get_value_as_string(const keyvi_match *);
 
 
 #ifdef __cplusplus

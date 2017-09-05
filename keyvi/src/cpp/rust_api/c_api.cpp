@@ -5,31 +5,76 @@
 #include "rust_api/c_api.h"
 #include "dictionary/dictionary.h"
 
+namespace {
+    char *
+    std_2_c_string(const std::string &str) {
+        auto result = static_cast<char *>(malloc(str.size() + 1));
+        strcpy(result, str.c_str());
+        return result;
+    }
+}
 
-Keyvi_Dictionary
-keyvi_create_dictionary(const char* filename) {
-    keyvi::dictionary::Dictionary* cpp_dict = new keyvi::dictionary::Dictionary(filename);
-    return Keyvi_Dictionary {cpp_dict};
+struct keyvi_dictionary {
+    using Type=keyvi::dictionary::Dictionary;
+
+    explicit keyvi_dictionary(const Type &obj)
+            : obj_(obj) {}
+
+    Type obj_;
+};
+
+
+struct keyvi_match {
+    using Type=keyvi::dictionary::Match;
+
+    explicit keyvi_match(const Type &obj)
+            : obj_(obj) {}
+
+    Type obj_;
+};
+
+keyvi_dictionary *
+keyvi_create_dictionary(const char *filename) {
+    return new keyvi_dictionary(keyvi_dictionary::Type(filename));
 }
 
 void
-keyvi_destroy_dictionary(Keyvi_Dictionary dict) {
-    delete dict.ptr_;
+keyvi_dictionary_destroy(const keyvi_dictionary *dict) {
+    delete dict;
 }
 
-const char *
-keyvi_get_dictionary_stats(Keyvi_Dictionary dict) {
-    const std::string stats = dict.ptr_->GetStatistics();
-    auto ret = static_cast<char *>(malloc(stats.size() + 1));
-    strcpy(ret, stats.c_str());
-    return ret;
+void
+keyvi_string_destroy(char *str) {
+    free(str);
 }
 
-const char *
-keyvi_get_dictionary_value(Keyvi_Dictionary dict, const char * key) {
-    const keyvi::dictionary::Match match = dict.ptr_->operator[](key);
-    const std::string str = match.GetValueAsString();
-    auto ret = static_cast<char *>(malloc(str.size() + 1));
-    strcpy(ret, str.c_str());
-    return ret;
+char *
+keyvi_dictionary_get_statistics(const keyvi_dictionary *dict) {
+    return std_2_c_string(dict->obj_.GetStatistics());
 }
+
+keyvi_match *
+keyvi_dictionary_get(const keyvi_dictionary *dict, const char *key) {
+    return new keyvi_match(dict->obj_[key]);
+}
+
+void
+keyvi_match_destroy(const keyvi_match *match) {
+    delete match;
+}
+
+bool
+keyvi_match_is_empty(const keyvi_match *match) {
+    return match->obj_.IsEmpty();
+}
+
+double
+keyvi_match_get_score(const keyvi_match *match) {
+    return match->obj_.GetScore();
+}
+
+char *
+keyvi_match_get_value_as_string(const keyvi_match *match) {
+    return std_2_c_string(match->obj_.GetValueAsString());
+}
+
