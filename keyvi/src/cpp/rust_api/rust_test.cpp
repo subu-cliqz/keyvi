@@ -15,6 +15,7 @@ int main() {
     auto match_empty = keyvi_dictionary_get(dict, "aasdasd");
 
     std::cout << stats << std::endl;
+    std::cout << keyvi_dictionary_get_size(dict) << std::endl;
     std::cout << keyvi_match_get_score(match) << std::endl;
     std::cout << keyvi_match_is_empty(match) << std::endl;
     std::cout << keyvi_match_is_empty(match_empty) << std::endl;

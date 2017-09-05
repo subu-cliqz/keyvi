@@ -58,6 +58,11 @@ keyvi_dictionary_get(const keyvi_dictionary *dict, const char *key) {
     return new keyvi_match(dict->obj_[key]);
 }
 
+unsigned long long
+keyvi_dictionary_get_size(const keyvi_dictionary *dict) {
+    return dict->obj_.GetSize();
+}
+
 void
 keyvi_match_destroy(const keyvi_match *match) {
     delete match;

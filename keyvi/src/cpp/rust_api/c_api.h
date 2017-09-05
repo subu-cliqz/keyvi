@@ -28,6 +28,9 @@ keyvi_dictionary_get_statistics(const keyvi_dictionary *);
 keyvi_match *
 keyvi_dictionary_get(const keyvi_dictionary *, const char *);
 
+unsigned long long
+keyvi_dictionary_get_size(const keyvi_dictionary *);
+
 void
 keyvi_match_destroy(const keyvi_match *);
 
