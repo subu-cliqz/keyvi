@@ -40,6 +40,9 @@ keyvi_match_get_score(const keyvi_match *);
 char *
 keyvi_match_get_value_as_string(const keyvi_match *);
 
+char *
+keyvi_match_get_matched_string(const keyvi_match *);
+
 
 #ifdef __cplusplus
 } /* end extern "C" */

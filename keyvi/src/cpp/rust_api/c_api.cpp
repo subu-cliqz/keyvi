@@ -78,3 +78,8 @@ keyvi_match_get_value_as_string(const keyvi_match *match) {
     return std_2_c_string(match->obj_.GetValueAsString());
 }
 
+char *
+keyvi_match_get_matched_string(const keyvi_match *match) {
+    return std_2_c_string(match->obj_.GetMatchedString());
+}
+
