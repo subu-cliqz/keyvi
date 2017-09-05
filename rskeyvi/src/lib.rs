@@ -17,8 +17,10 @@ mod tests {
     #[test]
     fn dictionary_load() {
         unsafe {
-            let dname = CString::new("test.kv").unwrap();
+            let dname = CString::new("/Users/narek/projects/keyvi/test.kv").unwrap();
             let f = keyvi_create_dictionary(dname.as_ptr());
+            println!("{:?}", CStr::from_ptr(keyvi_get_dictionary_stats(f)));
+            println!("{:?}", CStr::from_ptr(keyvi_get_dictionary_value(f, CString::new("a").unwrap().as_ptr())));
         }
     }
 }

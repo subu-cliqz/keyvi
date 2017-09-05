@@ -4,9 +4,9 @@ use std::env;
 use std::path::PathBuf;
 
 fn main() {
-    // Tell cargo to tell rustc to link keyvi 
-    println!("cargo:rustc-link-lib=static=keyvirust");
-    println!("cargo:rustc-link-search=native=../build_dir_release");
+    // Tell cargo to tell rustc to link keyvi
+    println!("cargo:rustc-link-lib=dylib=keyvirust");
+    println!("cargo:rustc-link-search=native=../cmake-build-debug/");
     println!("cargo:rustc-link-search=native=/usr/lib");
 
     // The bindgen::Builder is the main entry point
