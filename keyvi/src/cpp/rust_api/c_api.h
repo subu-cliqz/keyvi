@@ -34,6 +34,10 @@ keyvi_destroy_dictionary(Keyvi_Dictionary);
 const char *
 keyvi_get_dictionary_stats(Keyvi_Dictionary);
 
+const char *
+keyvi_get_dictionary_value(Keyvi_Dictionary, const char *);
+
+
 
 #ifdef __cplusplus
 } /* end extern "C" */

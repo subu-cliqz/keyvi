@@ -24,3 +24,12 @@ keyvi_get_dictionary_stats(Keyvi_Dictionary dict) {
     strcpy(ret, stats.c_str());
     return ret;
 }
+
+const char *
+keyvi_get_dictionary_value(Keyvi_Dictionary dict, const char * key) {
+    const keyvi::dictionary::Match match = dict.ptr_->operator[](key);
+    const std::string str = match.GetValueAsString();
+    auto ret = static_cast<char *>(malloc(str.size() + 1));
+    strcpy(ret, str.c_str());
+    return ret;
+}

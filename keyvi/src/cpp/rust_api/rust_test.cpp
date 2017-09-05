@@ -10,6 +10,7 @@ int main() {
     Keyvi_Dictionary dict = keyvi_create_dictionary("/Users/narek/projects/keyvi/test.kv");
 
     std::cout << keyvi_get_dictionary_stats(dict) << std::endl;
+    std::cout << keyvi_get_dictionary_value(dict, "a") << std::endl;
 
     keyvi_destroy_dictionary(dict);
 }
