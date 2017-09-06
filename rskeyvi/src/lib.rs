@@ -6,6 +6,7 @@ include!(concat!(env!("OUT_DIR"), "/bindings.rs"));
 
 
 mod dictionary;
+mod keyvi_string;
 
 use dictionary::Dictionary;
 
