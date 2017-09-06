@@ -1,5 +1,5 @@
 include!(concat!(env!("OUT_DIR"), "/bindings.rs"));
-use std::ffi::CString;
+use std::ffi::{CStr, CString};
 
 
 pub struct Dictionary {
@@ -8,23 +8,23 @@ pub struct Dictionary {
 
 impl Dictionary {
     pub fn new(filename: &str) -> Self {
-        unsafe {
-            Dictionary {
-                dict: root::keyvi_create_dictionary(CString::new(filename).unwrap().as_ptr())
-            }
+        let fn_c = CString::new(filename).unwrap();
+        Dictionary {
+            dict: unsafe { root::keyvi_create_dictionary(fn_c.as_ptr()) }
         }
     }
 
     pub fn statistics(&self) -> String {
-        unsafe {
-            CString::from_raw(root::keyvi_dictionary_get_statistics(self.dict)).into_string().unwrap()
-        }
+        let c_buf: *mut ::std::os::raw::c_char = unsafe { root::keyvi_dictionary_get_statistics(self.dict) };
+        let c_str: &CStr = unsafe { CStr::from_ptr(c_buf) };
+        let str_slice: &str = c_str.to_str().unwrap();
+        let str_buf: String = str_slice.to_owned();
+        unsafe { root::keyvi_string_destroy(c_buf); }
+        str_buf
     }
 
     pub fn size(&self) -> u64 {
-        unsafe {
-            return root::keyvi_dictionary_get_size(self.dict);
-        }
+        return unsafe { root::keyvi_dictionary_get_size(self.dict) };
     }
 }
 
