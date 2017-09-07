@@ -1,7 +1,8 @@
-include!(concat!(env!("OUT_DIR"), "/bindings.rs"));
-use std::ffi::{CStr, CString};
+use std::ffi::CString;
 use std::ops::Deref;
 use keyvi_string::KeyviString;
+use keyvi_match::KeyviMatch;
+use bindings::*;
 
 pub struct Dictionary {
     dict: *mut root::keyvi_dictionary,
@@ -22,7 +23,13 @@ impl Dictionary {
     }
 
     pub fn size(&self) -> u64 {
-        return unsafe { root::keyvi_dictionary_get_size(self.dict) };
+        unsafe { root::keyvi_dictionary_get_size(self.dict) }
+    }
+
+    pub fn get(&self, key: &str) -> KeyviMatch {
+        let key_c = CString::new(key).unwrap();
+        let match_ptr = unsafe { root::keyvi_dictionary_get(self.dict, key_c.as_ptr()) };
+        KeyviMatch::new(match_ptr)
     }
 }
 

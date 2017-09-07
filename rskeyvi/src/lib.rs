@@ -7,14 +7,16 @@ include!(concat!(env!("OUT_DIR"), "/bindings.rs"));
 
 mod dictionary;
 mod keyvi_string;
+mod keyvi_match;
+mod bindings;
 
 use dictionary::Dictionary;
+use keyvi_match::KeyviMatch;
 
 #[cfg(test)]
 mod tests {
     use super::*;
-    use std::mem;
-    use std::str::FromStr;
+
 
     #[test]
     fn dictionary_size() {
@@ -22,13 +24,21 @@ mod tests {
         assert_eq!(dict.size(), 3);
     }
 
-    //    #[test]
-    //    fn dictionary_load() {
-    //        unsafe {
-    //            let dname = CString::new("/Users/narek/projects/keyvi/test.kv").unwrap();
-    //            let f = keyvi_create_dictionary(dname.as_ptr());
-    //            println!("{:?}", CStr::from_ptr(keyvi_get_dictionary_stats(f)));
-    //            println!("{:?}", CStr::from_ptr(keyvi_get_dictionary_value(f, CString::new("a").unwrap().as_ptr())));
-    //        }
-    //    }
+    #[test]
+    fn match_string() {
+        let m = Dictionary::new("test.kv").get("a");
+        assert_eq!(m.matched_string(), "a");
+    }
+
+    #[test]
+    fn match_value() {
+        let m = Dictionary::new("test.kv").get("a");
+        assert_eq!(m.get_value(), "[12,13]");
+    }
+
+    #[test]
+    fn match_is_empty() {
+        let m = Dictionary::new("test.kv").get("a");
+        assert_eq!(m.is_empty(), false);
+    }
 }

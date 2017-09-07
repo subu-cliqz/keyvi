@@ -19,7 +19,6 @@ fn main() {
         // bindings for.
         .header("wrapper.h")
         .raw_line("pub use self::root::*;")
-        .clang_arg("-I../keyvi/src/cpp/rust_api/")
         .clang_arg("-I../keyvi/src/cpp/")
         .clang_arg("-x").clang_arg("c++")
         .clang_arg("-std=c++11")
