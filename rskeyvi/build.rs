@@ -1,13 +1,15 @@
 extern crate bindgen;
+extern crate cmake;
 
 use std::env;
 use std::path::PathBuf;
 
 fn main() {
+    let dst = cmake::build("../");
+
     // Tell cargo to tell rustc to link keyvi
     println!("cargo:rustc-link-lib=dylib=keyvirust");
-    println!("cargo:rustc-link-search=native=../cmake-build-debug/");
-    println!("cargo:rustc-link-search=native=/usr/lib");
+    println!("cargo:rustc-link-search=native={}", dst.join("build").display());
 
     // The bindgen::Builder is the main entry point
     // to bindgen, and lets you build up options for
