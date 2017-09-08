@@ -15,10 +15,10 @@ namespace {
 }
 
 struct keyvi_dictionary {
-    using Type=keyvi::dictionary::Dictionary;
+    using Type=keyvi::dictionary::dictionary_t;
 
-    explicit keyvi_dictionary(const Type &obj)
-            : obj_(obj) {}
+    explicit keyvi_dictionary(const Type::element_type &obj)
+            : obj_(new Type::element_type(obj)) {}
 
     Type obj_;
 };
@@ -49,7 +49,7 @@ keyvi_string_destroy(char *str) {
 
 keyvi_dictionary *
 keyvi_create_dictionary(const char *filename) {
-    return new keyvi_dictionary(keyvi_dictionary::Type(filename));
+    return new keyvi_dictionary(keyvi_dictionary::Type::element_type(filename));
 }
 
 void
@@ -59,17 +59,17 @@ keyvi_dictionary_destroy(const keyvi_dictionary *dict) {
 
 unsigned long long
 keyvi_dictionary_get_size(const keyvi_dictionary *dict) {
-    return dict->obj_.GetSize();
+    return dict->obj_->GetSize();
 }
 
 char *
 keyvi_dictionary_get_statistics(const keyvi_dictionary *dict) {
-    return std_2_c_string(dict->obj_.GetStatistics());
+    return std_2_c_string(dict->obj_->GetStatistics());
 }
 
 keyvi_match *
 keyvi_dictionary_get(const keyvi_dictionary *dict, const char *key) {
-    return new keyvi_match(dict->obj_[key]);
+    return new keyvi_match(dict->obj_->operator[](key));
 }
 
 
