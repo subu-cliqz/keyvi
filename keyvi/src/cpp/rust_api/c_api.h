@@ -12,6 +12,17 @@ extern "C" {
 struct keyvi_dictionary;
 struct keyvi_match;
 
+//////////////////////
+//// String
+//////////////////////
+
+void
+keyvi_string_destroy(char *str);
+
+
+//////////////////////
+//// Dictionary
+//////////////////////
 
 keyvi_dictionary *
 keyvi_create_dictionary(const char *);
@@ -19,8 +30,8 @@ keyvi_create_dictionary(const char *);
 void
 keyvi_dictionary_destroy(const keyvi_dictionary *);
 
-void
-keyvi_string_destroy(char *str);
+unsigned long long
+keyvi_dictionary_get_size(const keyvi_dictionary *);
 
 char *
 keyvi_dictionary_get_statistics(const keyvi_dictionary *);
@@ -28,8 +39,10 @@ keyvi_dictionary_get_statistics(const keyvi_dictionary *);
 keyvi_match *
 keyvi_dictionary_get(const keyvi_dictionary *, const char *);
 
-unsigned long long
-keyvi_dictionary_get_size(const keyvi_dictionary *);
+
+//////////////////////
+//// Match
+//////////////////////
 
 void
 keyvi_match_destroy(const keyvi_match *);

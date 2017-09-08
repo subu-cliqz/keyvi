@@ -33,6 +33,20 @@ struct keyvi_match {
     Type obj_;
 };
 
+//////////////////////
+//// String
+//////////////////////
+
+void
+keyvi_string_destroy(char *str) {
+    free(str);
+}
+
+
+//////////////////////
+//// Dictionary
+//////////////////////
+
 keyvi_dictionary *
 keyvi_create_dictionary(const char *filename) {
     return new keyvi_dictionary(keyvi_dictionary::Type(filename));
@@ -43,9 +57,9 @@ keyvi_dictionary_destroy(const keyvi_dictionary *dict) {
     delete dict;
 }
 
-void
-keyvi_string_destroy(char *str) {
-    free(str);
+unsigned long long
+keyvi_dictionary_get_size(const keyvi_dictionary *dict) {
+    return dict->obj_.GetSize();
 }
 
 char *
@@ -58,10 +72,10 @@ keyvi_dictionary_get(const keyvi_dictionary *dict, const char *key) {
     return new keyvi_match(dict->obj_[key]);
 }
 
-unsigned long long
-keyvi_dictionary_get_size(const keyvi_dictionary *dict) {
-    return dict->obj_.GetSize();
-}
+
+//////////////////////
+//// Match
+//////////////////////
 
 void
 keyvi_match_destroy(const keyvi_match *match) {
