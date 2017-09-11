@@ -20,7 +20,6 @@ fn main() {
         // The input header we would like to generate
         // bindings for.
         .header("wrapper.h")
-        .raw_line("pub use self::root::*;")
         .clang_arg("-I../keyvi/src/cpp/")
         .clang_arg("-x").clang_arg("c++")
         .clang_arg("-std=c++11")
