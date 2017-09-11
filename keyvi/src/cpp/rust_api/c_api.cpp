@@ -19,12 +19,10 @@ namespace {
 }
 
 struct keyvi_dictionary {
-    using Type=dictionary_t;
+    explicit keyvi_dictionary(const Dictionary &dictionary)
+            : obj_(new Dictionary(dictionary)) {}
 
-    explicit keyvi_dictionary(const Type::element_type &obj)
-            : obj_(new Type::element_type(obj)) {}
-
-    Type obj_;
+    dictionary_t obj_;
 };
 
 
@@ -61,7 +59,7 @@ keyvi_string_destroy(char *str) {
 
 keyvi_dictionary *
 keyvi_create_dictionary(const char *filename) {
-    return new keyvi_dictionary(keyvi_dictionary::Type::element_type(filename));
+    return new keyvi_dictionary(Dictionary(filename));
 }
 
 void
