@@ -4,6 +4,10 @@
 
 #include "rust_api/c_api.h"
 #include "dictionary/dictionary.h"
+#include "dictionary/completion/prefix_completion.h"
+
+
+using namespace keyvi::dictionary;
 
 namespace {
     char *
@@ -31,6 +35,15 @@ struct keyvi_match {
             : obj_(obj) {}
 
     Type obj_;
+};
+
+struct keyvi_match_iterator {
+    explicit keyvi_match_iterator(const MatchIterator::MatchIteratorPair &obj)
+            : current_(obj.begin()),
+              end_(obj.end()) {}
+
+    MatchIterator current_;
+    const MatchIterator end_;
 };
 
 //////////////////////
@@ -72,6 +85,12 @@ keyvi_dictionary_get(const keyvi_dictionary *dict, const char *key) {
     return new keyvi_match(dict->obj_->operator[](key));
 }
 
+keyvi_match_iterator *
+keyvi_dictionary_get_prefix_completions(const keyvi_dictionary *dict, const char *key) {
+    completion::PrefixCompletion prefixCompletion(dict->obj_);
+    return new keyvi_match_iterator(prefixCompletion.GetCompletions(key));
+}
+
 
 //////////////////////
 //// Match
@@ -102,3 +121,26 @@ keyvi_match_get_matched_string(const keyvi_match *match) {
     return std_2_c_string(match->obj_.GetMatchedString());
 }
 
+//////////////////////
+//// Match Iterator
+//////////////////////
+
+void
+keyvi_match_iterator_destroy(const keyvi_match_iterator *iterator) {
+    delete iterator;
+}
+
+bool
+keyvi_match_iterator_empty(const keyvi_match_iterator *iterator) {
+    return iterator->current_ == iterator->end_;
+}
+
+keyvi_match *
+keyvi_match_iterator_dereference(const keyvi_match_iterator *iterator) {
+    return new keyvi_match(*iterator->current_);
+}
+
+void
+keyvi_match_iterator_increment(keyvi_match_iterator *iterator) {
+    iterator->current_.operator++();
+}

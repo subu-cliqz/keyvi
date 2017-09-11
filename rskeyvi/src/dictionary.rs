@@ -2,6 +2,7 @@ use std::ffi::CString;
 use std::ops::Deref;
 use keyvi_string::KeyviString;
 use keyvi_match::KeyviMatch;
+use keyvi_match_iterator::KeyviMatchIterator;
 use bindings::*;
 
 pub struct Dictionary {
@@ -30,6 +31,12 @@ impl Dictionary {
         let key_c = CString::new(key).unwrap();
         let match_ptr = unsafe { root::keyvi_dictionary_get(self.dict, key_c.as_ptr()) };
         KeyviMatch::new(match_ptr)
+    }
+
+    pub fn get_prefix_completions(&self, key: &str) -> KeyviMatchIterator {
+        let key_c = CString::new(key).unwrap();
+        let ptr = unsafe { root::keyvi_dictionary_get_prefix_completions(self.dict, key_c.as_ptr()) };
+        KeyviMatchIterator::new(ptr)
     }
 }
 

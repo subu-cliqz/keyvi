@@ -8,6 +8,7 @@ include!(concat!(env!("OUT_DIR"), "/bindings.rs"));
 mod dictionary;
 mod keyvi_string;
 mod keyvi_match;
+mod keyvi_match_iterator;
 mod bindings;
 
 use dictionary::Dictionary;
@@ -40,5 +41,20 @@ mod tests {
     fn match_is_empty() {
         let m = Dictionary::new("test.kv").get("a");
         assert_eq!(m.is_empty(), false);
+    }
+
+    #[test]
+    fn match_iterator_count() {
+        let mit = Dictionary::new("test.kv").get_prefix_completions("a");
+        assert_eq!(mit.count(), 1);
+    }
+
+    #[test]
+    fn match_iterator_values() {
+        let mit = Dictionary::new("test.kv").get_prefix_completions("a");
+        for m in mit {
+            assert_eq!(m.matched_string(), "a");
+            assert_eq!(m.get_value(), "[12,13]");
+        }
     }
 }
