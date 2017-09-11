@@ -19,7 +19,7 @@ namespace {
 }
 
 struct keyvi_dictionary {
-    using Type=keyvi::dictionary::dictionary_t;
+    using Type=dictionary_t;
 
     explicit keyvi_dictionary(const Type::element_type &obj)
             : obj_(new Type::element_type(obj)) {}
@@ -29,12 +29,11 @@ struct keyvi_dictionary {
 
 
 struct keyvi_match {
-    using Type=keyvi::dictionary::Match;
 
-    explicit keyvi_match(const Type &obj)
+    explicit keyvi_match(const Match &obj)
             : obj_(obj) {}
 
-    Type obj_;
+    Match obj_;
 };
 
 struct keyvi_match_iterator {
