@@ -43,6 +43,9 @@ keyvi_dictionary_get(const keyvi_dictionary *, const char *);
 keyvi_match_iterator *
 keyvi_dictionary_get_prefix_completions(const keyvi_dictionary *, const char *);
 
+keyvi_match_iterator *
+keyvi_dictionary_get_multi_word_completions(const keyvi_dictionary *, const char *);
+
 
 //////////////////////
 //// Match

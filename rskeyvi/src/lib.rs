@@ -57,4 +57,22 @@ mod tests {
             assert_eq!(m.get_value(), "[12,13]");
         }
     }
+
+    #[test]
+    fn multi_word_completions() {
+        let mut values = vec![
+            ("80", "mozilla firefox"),
+            ("43", "mozilla fans"),
+            ("30", "mozilla footprint"),
+            ("12", "mozilla firebird")
+        ];
+        values.sort();
+        let new_values: Vec<(String, String)> = values.into_iter().map(|(x, y)| (x.into(), y.into())).collect();
+
+        let mit = Dictionary::new("completion_test.kv").get_multi_word_completions("mozilla f");
+        let mut a: Vec<(String, String)> = mit.map(|m| (m.get_value(), m.matched_string())).collect();
+        a.sort();
+
+        assert_eq!(new_values, a);
+    }
 }

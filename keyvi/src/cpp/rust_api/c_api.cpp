@@ -5,6 +5,7 @@
 #include "rust_api/c_api.h"
 #include "dictionary/dictionary.h"
 #include "dictionary/completion/prefix_completion.h"
+#include "dictionary/completion/multiword_completion.h"
 
 
 using namespace keyvi::dictionary;
@@ -86,6 +87,12 @@ keyvi_match_iterator *
 keyvi_dictionary_get_prefix_completions(const keyvi_dictionary *dict, const char *key) {
     completion::PrefixCompletion prefixCompletion(dict->obj_);
     return new keyvi_match_iterator(prefixCompletion.GetCompletions(key));
+}
+
+keyvi_match_iterator *
+keyvi_dictionary_get_multi_word_completions(const keyvi_dictionary *dict, const char *key) {
+    completion::MultiWordCompletion multiWordCompletion(dict->obj_);
+    return new keyvi_match_iterator(multiWordCompletion.GetCompletions(key));
 }
 
 
