@@ -5,10 +5,10 @@
 include!(concat!(env!("OUT_DIR"), "/bindings.rs"));
 
 
-mod dictionary;
-mod keyvi_string;
-mod keyvi_match;
-mod keyvi_match_iterator;
+pub mod dictionary;
+pub mod keyvi_string;
+pub mod keyvi_match;
+pub mod keyvi_match_iterator;
 mod bindings;
 
 use dictionary::Dictionary;
