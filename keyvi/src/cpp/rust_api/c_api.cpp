@@ -2,6 +2,8 @@
 // Created by Narek Gharibyan on 9/4/17.
 //
 
+#include <iostream>
+
 #include "rust_api/c_api.h"
 #include "dictionary/dictionary.h"
 #include "dictionary/completion/prefix_completion.h"
@@ -60,7 +62,12 @@ keyvi_string_destroy(char *str) {
 
 keyvi_dictionary *
 keyvi_create_dictionary(const char *filename) {
-    return new keyvi_dictionary(Dictionary(filename));
+    try {
+        return new keyvi_dictionary(Dictionary(filename));
+    } catch (const std::exception& e) {
+        std::cerr << e.what() << std::endl;
+        return nullptr;
+    }
 }
 
 void

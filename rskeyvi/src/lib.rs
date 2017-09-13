@@ -19,40 +19,45 @@ use keyvi_match::KeyviMatch;
 mod tests {
     use super::*;
 
+    #[test]
+    fn dictionary_error() {
+        let dict = Dictionary::new("fake_file_name.kv");
+        assert!(dict.is_err());
+    }
 
     #[test]
     fn dictionary_size() {
-        let dict = Dictionary::new("test.kv");
+        let dict = Dictionary::new("test.kv").unwrap();
         assert_eq!(dict.size(), 3);
     }
 
     #[test]
     fn match_string() {
-        let m = Dictionary::new("test.kv").get("a");
+        let m = Dictionary::new("test.kv").unwrap().get("a");
         assert_eq!(m.matched_string(), "a");
     }
 
     #[test]
     fn match_value() {
-        let m = Dictionary::new("test.kv").get("a");
+        let m = Dictionary::new("test.kv").unwrap().get("a");
         assert_eq!(m.get_value(), "[12,13]");
     }
 
     #[test]
     fn match_is_empty() {
-        let m = Dictionary::new("test.kv").get("a");
+        let m = Dictionary::new("test.kv").unwrap().get("a");
         assert_eq!(m.is_empty(), false);
     }
 
     #[test]
     fn match_iterator_count() {
-        let mit = Dictionary::new("test.kv").get_prefix_completions("a");
+        let mit = Dictionary::new("test.kv").unwrap().get_prefix_completions("a");
         assert_eq!(mit.count(), 1);
     }
 
     #[test]
     fn match_iterator_values() {
-        let mit = Dictionary::new("test.kv").get_prefix_completions("a");
+        let mit = Dictionary::new("test.kv").unwrap().get_prefix_completions("a");
         for m in mit {
             assert_eq!(m.matched_string(), "a");
             assert_eq!(m.get_value(), "[12,13]");
@@ -70,7 +75,7 @@ mod tests {
         values.sort();
         let new_values: Vec<(String, String)> = values.into_iter().map(|(x, y)| (x.into(), y.into())).collect();
 
-        let mit = Dictionary::new("completion_test.kv").get_multi_word_completions("mozilla f");
+        let mit = Dictionary::new("completion_test.kv").unwrap().get_multi_word_completions("mozilla f");
         let mut a: Vec<(String, String)> = mit.map(|m| (m.get_value(), m.matched_string())).collect();
         a.sort();
 

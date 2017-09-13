@@ -11,10 +11,13 @@ pub struct Dictionary {
 
 
 impl Dictionary {
-    pub fn new(filename: &str) -> Self {
+    pub fn new(filename: &str) -> Result<Dictionary, &str> {
         let fn_c = CString::new(filename).unwrap();
-        Dictionary {
-            dict: unsafe { root::keyvi_create_dictionary(fn_c.as_ptr()) }
+        let ptr = unsafe { root::keyvi_create_dictionary(fn_c.as_ptr()) };
+        if ptr.is_null() {
+            Err("could not load file")
+        } else {
+            Ok(Dictionary { dict: ptr })
         }
     }
 
