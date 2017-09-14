@@ -10,7 +10,7 @@ impl KeyviMatch {
         KeyviMatch { match_ptr_: match_ptr }
     }
 
-    pub fn get_value(&self) -> String {
+    pub fn get_value_as_string(&self) -> String {
         let c_buf = unsafe { root::keyvi_match_get_value_as_string(self.match_ptr_) };
         KeyviString::new(c_buf).to_owned()
     }

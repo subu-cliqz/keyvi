@@ -40,7 +40,7 @@ mod tests {
     #[test]
     fn match_value() {
         let m = Dictionary::new("test.kv").unwrap().get("a");
-        assert_eq!(m.get_value(), "[12,13]");
+        assert_eq!(m.get_value_as_string(), "[12,13]");
     }
 
     #[test]
@@ -60,7 +60,7 @@ mod tests {
         let mit = Dictionary::new("test.kv").unwrap().get_prefix_completions("a");
         for m in mit {
             assert_eq!(m.matched_string(), "a");
-            assert_eq!(m.get_value(), "[12,13]");
+            assert_eq!(m.get_value_as_string(), "[12,13]");
         }
     }
 
@@ -76,7 +76,7 @@ mod tests {
         let new_values: Vec<(String, String)> = values.into_iter().map(|(x, y)| (x.into(), y.into())).collect();
 
         let mit = Dictionary::new("completion_test.kv").unwrap().get_multi_word_completions("mozilla f");
-        let mut a: Vec<(String, String)> = mit.map(|m| (m.get_value(), m.matched_string())).collect();
+        let mut a: Vec<(String, String)> = mit.map(|m| (m.get_value_as_string(), m.matched_string())).collect();
         a.sort();
 
         assert_eq!(new_values, a);
