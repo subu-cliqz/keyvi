@@ -1,6 +1,8 @@
 use keyvi_string::KeyviString;
 use bindings::*;
 
+use serde_json;
+
 pub struct KeyviMatch {
     match_ptr_: *mut root::keyvi_match,
 }
@@ -8,6 +10,11 @@ pub struct KeyviMatch {
 impl KeyviMatch {
     pub fn new(match_ptr: *mut root::keyvi_match) -> KeyviMatch {
         KeyviMatch { match_ptr_: match_ptr }
+    }
+
+    pub fn get_value(&self) -> serde_json::Value {
+        let value_str = self.get_value_as_string();
+        serde_json::from_str(value_str.as_str()).unwrap()
     }
 
     pub fn get_value_as_string(&self) -> String {

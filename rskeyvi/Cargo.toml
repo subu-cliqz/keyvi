@@ -7,3 +7,6 @@ authors = ["Subu <subu@cliqz.com>"]
 [build-dependencies]
 bindgen = "0.30.0"
 cmake = "*"
+
+[dependencies]
+serde_json = "1.0"

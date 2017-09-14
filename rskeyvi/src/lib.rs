@@ -3,8 +3,9 @@
 #![allow(non_snake_case)]
 #![crate_type = "lib"]
 
-include!(concat!(env!("OUT_DIR"), "/bindings.rs"));
+extern crate serde_json;
 
+use serde_json::{Value, Error};
 
 pub mod dictionary;
 pub mod keyvi_string;
@@ -35,6 +36,24 @@ mod tests {
     fn match_string() {
         let m = Dictionary::new("test.kv").unwrap().get("a");
         assert_eq!(m.matched_string(), "a");
+    }
+
+    #[test]
+    fn match_value_int() {
+        let m = Dictionary::new("completion_test.kv").unwrap().get("mozilla footprint");
+        match m.get_value() {
+            Value::Number(n) => assert_eq!(n.as_i64().unwrap(), 30),
+            _ => assert!(false)
+        }
+    }
+
+    #[test]
+    fn match_value_array() {
+        let m = Dictionary::new("test.kv").unwrap().get("a");
+        match m.get_value() {
+            Value::Array(n) => assert_eq!(n, vec![12, 13]),
+            _ => assert!(false)
+        }
     }
 
     #[test]
