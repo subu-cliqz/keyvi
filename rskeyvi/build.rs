@@ -22,7 +22,6 @@ fn main() {
         .header("wrapper.h")
         .clang_arg("-I../keyvi/src/cpp/")
         .clang_arg("-x").clang_arg("c++")
-        .clang_arg("-std=c++11")
         .enable_cxx_namespaces()
 
         .layout_tests(true)

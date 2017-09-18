@@ -5,7 +5,6 @@
 
 extern crate serde_json;
 
-use serde_json::{Value, Error};
 
 pub mod dictionary;
 pub mod keyvi_string;
@@ -13,12 +12,11 @@ pub mod keyvi_match;
 pub mod keyvi_match_iterator;
 mod bindings;
 
-use dictionary::Dictionary;
-use keyvi_match::KeyviMatch;
 
 #[cfg(test)]
 mod tests {
-    use super::*;
+    use dictionary::Dictionary;
+    use serde_json::Value;
 
     #[test]
     fn dictionary_error() {

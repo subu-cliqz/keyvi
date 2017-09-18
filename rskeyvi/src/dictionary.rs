@@ -1,5 +1,4 @@
 use std::ffi::CString;
-use std::ops::Deref;
 use keyvi_string::KeyviString;
 use keyvi_match::KeyviMatch;
 use keyvi_match_iterator::KeyviMatchIterator;
@@ -44,7 +43,7 @@ impl Dictionary {
 
     pub fn get_multi_word_completions(&self, key: &str) -> KeyviMatchIterator {
         let key_c = CString::new(key).unwrap();
-        let ptr = unsafe { root::keyvi_dictionary_get_prefix_completions(self.dict, key_c.as_ptr()) };
+        let ptr = unsafe { root::keyvi_dictionary_get_multi_word_completions(self.dict, key_c.as_ptr()) };
         KeyviMatchIterator::new(ptr)
     }
 }
