@@ -36,6 +36,12 @@ impl KeyviMatch {
     }
 }
 
+impl Into<(String, serde_json::Value)> for KeyviMatch {
+    fn into(self) -> (String, serde_json::Value) {
+        (self.matched_string(), self.get_value())
+    }
+}
+
 impl Drop for KeyviMatch {
     fn drop(&mut self) {
         unsafe {

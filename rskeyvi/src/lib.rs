@@ -82,6 +82,19 @@ mod tests {
     }
 
     #[test]
+    fn match_iterator_into() {
+        for m in Dictionary::new("test.kv").unwrap().get_prefix_completions("a") {
+            let (k, v) = m.into();
+            assert_eq!(k, "a");
+
+            match v {
+                Value::Array(n) => assert_eq!(n, vec![12, 13]),
+                _ => assert!(false)
+            }
+        }
+    }
+
+    #[test]
     fn multi_word_completions() {
         let mut values = vec![
             ("80", "mozilla firefox"),
