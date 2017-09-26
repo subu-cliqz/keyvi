@@ -25,7 +25,7 @@ impl Dictionary {
         KeyviString::new(c_buf).to_owned()
     }
 
-    pub fn size(&self) -> u64 {
+    pub fn size(&self) -> usize {
         unsafe { root::keyvi_dictionary_get_size(self.dict) }
     }
 
@@ -35,7 +35,7 @@ impl Dictionary {
         KeyviMatch::new(match_ptr)
     }
 
-    pub fn get_prefix_completions(&self, key: &str, cutoff: i32) -> KeyviMatchIterator {
+    pub fn get_prefix_completions(&self, key: &str, cutoff: usize) -> KeyviMatchIterator {
         let key_c = CString::new(key).unwrap();
         let ptr = unsafe {
             root::keyvi_dictionary_get_prefix_completions(self.dict, key_c.as_ptr(), cutoff)
@@ -43,7 +43,7 @@ impl Dictionary {
         KeyviMatchIterator::new(ptr)
     }
 
-    pub fn get_multi_word_completions(&self, key: &str, cutoff: i32) -> KeyviMatchIterator {
+    pub fn get_multi_word_completions(&self, key: &str, cutoff: usize) -> KeyviMatchIterator {
         let key_c = CString::new(key).unwrap();
         let ptr = unsafe {
             root::keyvi_dictionary_get_multi_word_completions(self.dict, key_c.as_ptr(), cutoff)

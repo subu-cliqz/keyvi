@@ -75,7 +75,7 @@ keyvi_dictionary_destroy(const keyvi_dictionary *dict) {
     delete dict;
 }
 
-unsigned long long
+size_t
 keyvi_dictionary_get_size(const keyvi_dictionary *dict) {
     return dict->obj_->GetSize();
 }
@@ -91,13 +91,13 @@ keyvi_dictionary_get(const keyvi_dictionary *dict, const char *key) {
 }
 
 keyvi_match_iterator *
-keyvi_dictionary_get_prefix_completions(const keyvi_dictionary *dict, const char *key, int cutoff) {
+keyvi_dictionary_get_prefix_completions(const keyvi_dictionary *dict, const char *key, size_t cutoff) {
     completion::PrefixCompletion prefixCompletion(dict->obj_);
     return new keyvi_match_iterator(prefixCompletion.GetCompletions(key, cutoff));
 }
 
 keyvi_match_iterator *
-keyvi_dictionary_get_multi_word_completions(const keyvi_dictionary *dict, const char *key, int cutoff) {
+keyvi_dictionary_get_multi_word_completions(const keyvi_dictionary *dict, const char *key, size_t cutoff) {
     completion::MultiWordCompletion multiWordCompletion(dict->obj_);
     return new keyvi_match_iterator(multiWordCompletion.GetCompletions(key, cutoff));
 }

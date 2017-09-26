@@ -9,6 +9,8 @@
 extern "C" {
 #endif
 
+#include <stddef.h>
+
 struct keyvi_dictionary;
 struct keyvi_match;
 struct keyvi_match_iterator;
@@ -31,7 +33,7 @@ keyvi_create_dictionary(const char *);
 void
 keyvi_dictionary_destroy(const keyvi_dictionary *);
 
-unsigned long long
+size_t
 keyvi_dictionary_get_size(const keyvi_dictionary *);
 
 char *
@@ -41,10 +43,10 @@ keyvi_match *
 keyvi_dictionary_get(const keyvi_dictionary *, const char *);
 
 keyvi_match_iterator *
-keyvi_dictionary_get_prefix_completions(const keyvi_dictionary *, const char *, int);
+keyvi_dictionary_get_prefix_completions(const keyvi_dictionary *, const char *, size_t);
 
 keyvi_match_iterator *
-keyvi_dictionary_get_multi_word_completions(const keyvi_dictionary *, const char *, int);
+keyvi_dictionary_get_multi_word_completions(const keyvi_dictionary *, const char *, size_t);
 
 
 //////////////////////
