@@ -68,13 +68,13 @@ mod tests {
 
     #[test]
     fn match_iterator_count() {
-        let mit = Dictionary::new("test.kv").unwrap().get_prefix_completions("a");
+        let mit = Dictionary::new("test.kv").unwrap().get_prefix_completions("a", 10);
         assert_eq!(mit.count(), 1);
     }
 
     #[test]
     fn match_iterator_values() {
-        let mit = Dictionary::new("test.kv").unwrap().get_prefix_completions("a");
+        let mit = Dictionary::new("test.kv").unwrap().get_prefix_completions("a", 10);
         for m in mit {
             assert_eq!(m.matched_string(), "a");
             assert_eq!(m.get_value_as_string(), "[12,13]");
@@ -83,7 +83,7 @@ mod tests {
 
     #[test]
     fn match_iterator_into() {
-        for m in Dictionary::new("test.kv").unwrap().get_prefix_completions("a") {
+        for m in Dictionary::new("test.kv").unwrap().get_prefix_completions("a", 10) {
             let (k, v) = m.into();
             assert_eq!(k, "a");
 
@@ -105,7 +105,22 @@ mod tests {
         values.sort();
         let new_values: Vec<(String, String)> = values.into_iter().map(|(x, y)| (x.into(), y.into())).collect();
 
-        let mit = Dictionary::new("completion_test.kv").unwrap().get_multi_word_completions("mozilla f");
+        let mit = Dictionary::new("completion_test.kv").unwrap().get_multi_word_completions("mozilla f", 10);
+        let mut a: Vec<(String, String)> = mit.map(|m| (m.get_value_as_string(), m.matched_string())).collect();
+        a.sort();
+
+        assert_eq!(new_values, a);
+    }
+
+    #[test]
+    fn multi_word_completions_cutoff() {
+        let mut values = vec![
+            ("80", "mozilla firefox"),
+        ];
+        values.sort();
+        let new_values: Vec<(String, String)> = values.into_iter().map(|(x, y)| (x.into(), y.into())).collect();
+
+        let mit = Dictionary::new("completion_test.kv").unwrap().get_multi_word_completions("mozilla f", 1);
         let mut a: Vec<(String, String)> = mit.map(|m| (m.get_value_as_string(), m.matched_string())).collect();
         a.sort();
 

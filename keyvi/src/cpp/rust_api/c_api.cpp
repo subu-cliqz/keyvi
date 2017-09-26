@@ -91,15 +91,15 @@ keyvi_dictionary_get(const keyvi_dictionary *dict, const char *key) {
 }
 
 keyvi_match_iterator *
-keyvi_dictionary_get_prefix_completions(const keyvi_dictionary *dict, const char *key) {
+keyvi_dictionary_get_prefix_completions(const keyvi_dictionary *dict, const char *key, int cutoff) {
     completion::PrefixCompletion prefixCompletion(dict->obj_);
-    return new keyvi_match_iterator(prefixCompletion.GetCompletions(key));
+    return new keyvi_match_iterator(prefixCompletion.GetCompletions(key, cutoff));
 }
 
 keyvi_match_iterator *
-keyvi_dictionary_get_multi_word_completions(const keyvi_dictionary *dict, const char *key) {
+keyvi_dictionary_get_multi_word_completions(const keyvi_dictionary *dict, const char *key, int cutoff) {
     completion::MultiWordCompletion multiWordCompletion(dict->obj_);
-    return new keyvi_match_iterator(multiWordCompletion.GetCompletions(key));
+    return new keyvi_match_iterator(multiWordCompletion.GetCompletions(key, cutoff));
 }
 
 

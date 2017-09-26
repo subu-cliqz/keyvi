@@ -48,7 +48,7 @@ int main() {
     }
 
     {
-        auto mit = keyvi_dictionary_get_prefix_completions(dict, "a");
+        auto mit = keyvi_dictionary_get_prefix_completions(dict, "a", 10);
 
         for (; !keyvi_match_iterator_empty(mit); keyvi_match_iterator_increment(mit)) {
             auto m = keyvi_match_iterator_dereference(mit);

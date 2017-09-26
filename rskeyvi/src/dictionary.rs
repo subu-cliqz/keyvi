@@ -35,15 +35,19 @@ impl Dictionary {
         KeyviMatch::new(match_ptr)
     }
 
-    pub fn get_prefix_completions(&self, key: &str) -> KeyviMatchIterator {
+    pub fn get_prefix_completions(&self, key: &str, cutoff: i32) -> KeyviMatchIterator {
         let key_c = CString::new(key).unwrap();
-        let ptr = unsafe { root::keyvi_dictionary_get_prefix_completions(self.dict, key_c.as_ptr()) };
+        let ptr = unsafe {
+            root::keyvi_dictionary_get_prefix_completions(self.dict, key_c.as_ptr(), cutoff)
+        };
         KeyviMatchIterator::new(ptr)
     }
 
-    pub fn get_multi_word_completions(&self, key: &str) -> KeyviMatchIterator {
+    pub fn get_multi_word_completions(&self, key: &str, cutoff: i32) -> KeyviMatchIterator {
         let key_c = CString::new(key).unwrap();
-        let ptr = unsafe { root::keyvi_dictionary_get_multi_word_completions(self.dict, key_c.as_ptr()) };
+        let ptr = unsafe {
+            root::keyvi_dictionary_get_multi_word_completions(self.dict, key_c.as_ptr(), cutoff)
+        };
         KeyviMatchIterator::new(ptr)
     }
 }
