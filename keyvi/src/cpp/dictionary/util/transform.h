@@ -48,7 +48,7 @@ class Transform final{
       return input;
     }
 
-    std::sort(strs.begin(), strs.end() - 1);
+    //std::sort(strs.begin(), strs.end() - 1);
     return boost::algorithm::join(strs, " ");
   }
 };
