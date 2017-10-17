@@ -8,6 +8,9 @@ pub struct Dictionary {
     dict: *mut root::keyvi_dictionary,
 }
 
+unsafe impl Send for Dictionary { }
+unsafe impl Sync for Dictionary { }
+
 
 impl Dictionary {
     pub fn new(filename: &str) -> Result<Dictionary, &str> {

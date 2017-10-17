@@ -1,9 +1,15 @@
 #![allow(non_upper_case_globals)]
 #![allow(non_camel_case_types)]
 #![allow(non_snake_case)]
+#![feature(test)]
 #![crate_type = "lib"]
 
 extern crate serde_json;
+extern crate rayon;
+extern crate rand;
+
+
+extern crate test;
 
 
 pub mod dictionary;
@@ -16,7 +22,11 @@ mod bindings;
 #[cfg(test)]
 mod tests {
     use dictionary::Dictionary;
-    use serde_json::Value;
+    use serde_json::{self, Value};
+    use rayon::prelude::*;
+    use test::Bencher;
+    use rand::{thread_rng, sample};
+
 
     #[test]
     fn dictionary_error() {
@@ -126,4 +136,20 @@ mod tests {
 
         assert_eq!(new_values, a);
     }
+    
+    #[bench]
+    fn multithread_get_performance(b: &mut Bencher) {
+	let dicts:Vec<String> = (0..10).map(|i| format!("/raid/clq/word_embeddings/2017-05-30T08-26-55/word_embeddings.kv-{}", i)).collect();
+	let kvs:Vec<Dictionary> = dicts.iter().map(|f| Dictionary::new(f).unwrap()).collect();
+	let keys = include_str!("../keys");
+	let parsed_keys:Vec<String> = serde_json::from_str(keys).unwrap();
+	let mut rng = thread_rng();
+        let shards: Vec<u32>= (0..10000).map(|i| sample(&mut rng, 1..10, 1)[0]).collect();
+	b.iter(||  {
+		let m = parsed_keys.iter().enumerate().map(|(i, k)| kvs[shards[i] as usize].get(k));
+		let res:Vec<String> = m.map(|i| i.get_value_as_string()).collect();
+	});
+	
+    }
+
 }

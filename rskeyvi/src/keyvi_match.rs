@@ -7,6 +7,8 @@ pub struct KeyviMatch {
     match_ptr_: *mut root::keyvi_match,
 }
 
+unsafe impl Send for KeyviMatch { }
+unsafe impl Sync for KeyviMatch { }
 impl KeyviMatch {
     pub fn new(match_ptr: *mut root::keyvi_match) -> KeyviMatch {
         KeyviMatch { match_ptr_: match_ptr }
