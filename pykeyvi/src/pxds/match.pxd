@@ -6,8 +6,8 @@ from cpython.ref cimport PyObject
 
 cdef extern from "dictionary/match.h" namespace "keyvi::dictionary":
     cdef cppclass Match:
-        Match()
-        Match(Match& m)
+        Match() nogil
+        Match(Match& m) nogil
         size_t GetStart()
         void SetStart(size_t start)
         size_t GetEnd()

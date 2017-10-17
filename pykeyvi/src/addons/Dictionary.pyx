@@ -5,12 +5,17 @@
             key = key.encode('utf-8')
         assert isinstance(key, bytes), 'arg in_0 wrong type'
     
-        cdef shared_ptr[_Match] _r = shared_ptr[_Match](new _Match(deref(self.inst.get())[(<libcpp_string>key)]))
+        cdef _Match* _r 
+        cdef libcpp_string _key = <libcpp_string>key
+        with nogil:
+             d = self.inst.get()
+             _r = new _Match(deref(d)[(_key)])
 
-        if _r.get().IsEmpty():
+        cdef shared_ptr[_Match] _ptr = shared_ptr[_Match](_r)
+        if _ptr.get().IsEmpty():
             return default
         cdef Match py_result = Match.__new__(Match)
-        py_result.inst = _r
+        py_result.inst = _ptr
         return py_result
 
     def __contains__(self, key):

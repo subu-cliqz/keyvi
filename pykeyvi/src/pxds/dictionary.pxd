@@ -21,7 +21,7 @@ cdef extern from "dictionary/dictionary.h" namespace "keyvi::dictionary":
         Dictionary (libcpp_utf8_string filename) except +
         Dictionary (libcpp_utf8_string filename, loading_strategy_types) except +
         bool Contains (libcpp_utf8_string) # wrap-ignore
-        Match operator[](libcpp_utf8_string) # wrap-ignore
+        Match operator[](libcpp_utf8_string) nogil# wrap-ignore
         _MatchIteratorPair Get (libcpp_utf8_string)
         _MatchIteratorPair GetNear (libcpp_utf8_string, size_t minimum_prefix_length) except +
         _MatchIteratorPair GetNear (libcpp_utf8_string, size_t minimum_prefix_length, bool greedy) except +
