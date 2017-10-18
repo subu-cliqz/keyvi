@@ -21,7 +21,7 @@ from cython.parallel import parallel, prange
     cdef libcpp_vector[_Match*] _batch_get (self, libcpp_vector[libcpp_string] keys, default = None):
         cdef int i
         cdef libcpp_vector[_Match*] result
-        result.reserve(keys.size())
+        result.resize(keys.size())
         with nogil, parallel(num_threads=10):
             for i in prange(keys.size(), schedule="guided"):
                 result[i] = self._get(keys[i], default)
@@ -41,6 +41,7 @@ from cython.parallel import parallel, prange
         py_result = []
         cdef shared_ptr[_Match] _r 
         cdef Match m
+        cdef _Match* r
         for r in result:
             m = Match.__new__(Match)
             m.inst = shared_ptr[_Match](r)      
