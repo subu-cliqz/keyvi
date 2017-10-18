@@ -1,6 +1,7 @@
 from libc.string cimport const_char
 from libcpp.string cimport string as libcpp_string
 from libcpp.string cimport string as libcpp_utf8_string
+from libcpp.vector cimport vector as libcpp_vector 
 from libc.stdint cimport uint32_t
 from libcpp cimport bool
 from match cimport Match
