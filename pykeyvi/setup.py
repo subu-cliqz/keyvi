@@ -68,6 +68,13 @@ with symlink_keyvi() as (pykeyvi_source_path, keyvi_source_path):
     ]
 
     linklibraries = [
+        "boost_program_options",
+        "boost_iostreams",
+        "boost_filesystem",
+        "boost_system",
+        "boost_regex",
+        "boost_thread",
+        "snappy",
         "tpie",
         "z"
     ]
@@ -127,7 +134,7 @@ with symlink_keyvi() as (pykeyvi_source_path, keyvi_source_path):
                 linklibraries.append("gcov")
 
             # check linking
-            if self.staticlinkboost:
+            if True: #self.staticlinkboost:
                 # set static
                 extra_link_arguments = ['-Wl,-Bstatic']
                 for lib in linklibraries_static_or_dynamic:

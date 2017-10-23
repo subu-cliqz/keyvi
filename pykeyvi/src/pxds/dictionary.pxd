@@ -7,6 +7,9 @@ from libcpp cimport bool
 from match cimport Match
 from match_iterator cimport MatchIteratorPair as _MatchIteratorPair
 
+ctypedef libcpp_vector[libcpp_string] batch_get(libcpp_vector[Dictionary*] dicts, libcpp_vector[libcpp_string] keys) nogil
+ctypedef Match* _get(Dictionary* dict, libcpp_string key) nogil
+
 cdef extern from "dictionary/dictionary.h" namespace "keyvi::dictionary":
     ctypedef enum loading_strategy_types:
         default_os, # no special treatment, use whatever the OS/Boost has as default
