@@ -81,7 +81,7 @@ with symlink_keyvi() as (pykeyvi_source_path, keyvi_source_path):
 
     mac_os_static_libs_dir = 'mac_os_static_libs'
 
-    extra_link_arguments = []
+    extra_link_arguments = ['-fopenmp']
     link_library_dirs = [tpie_lib_dir]
 
     if sys.platform == 'darwin':
@@ -225,7 +225,7 @@ with symlink_keyvi() as (pykeyvi_source_path, keyvi_source_path):
                                            path.join(dictionary_sources, '3rdparty/xchange/src')],
                              language='c++',
                              sources=[pykeyvi_cpp],
-                             extra_compile_args=['-std=c++11', '-msse4.2'] + additional_compile_flags,
+                             extra_compile_args=['-fopenmp','-std=c++11', '-msse4.2'] + additional_compile_flags,
                              extra_link_args=extra_link_arguments,
                              library_dirs=link_library_dirs,
                              libraries=linklibraries)]

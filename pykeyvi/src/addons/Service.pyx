@@ -1,6 +1,6 @@
 
 from cython.parallel import parallel, prange
-cdef _Match* _get (_Dictionary* dict,  libcpp_string key, default = None) nogil:
+cdef inline _Match* _get (_Dictionary* dict,  libcpp_string key, default = None) nogil:
     return new _Match(deref(dict)[(key)])
 
 cdef libcpp_vector[libcpp_string] batch_get(libcpp_vector[_Dictionary*] dicts, libcpp_vector[libcpp_string] keys, default= None):
@@ -10,13 +10,13 @@ cdef libcpp_vector[libcpp_string] batch_get(libcpp_vector[_Dictionary*] dicts, l
     result.resize(keys.size())
 
     with nogil, parallel(num_threads=10):
-        for i in prange(count, schedule="guided"):
+        for i in prange(count, schedule="static"):
             result[i] = _get(dicts[i], keys[i], default).GetValueAsString()
 
 
     return result
 
-def batch_get_py (dicts_with_keys, default = None):
+cpdef list batch_get_py (list dicts_with_keys, default = None):
     cdef int n = len(dicts_with_keys)
     cdef libcpp_vector[libcpp_string] _keys
     _keys.resize(n)
