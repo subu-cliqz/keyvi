@@ -126,4 +126,20 @@ mod tests {
 
         assert_eq!(new_values, a);
     }
+
+    #[test]
+    fn fuzzy_completions() {
+        let mut values = vec![
+            ("22", "aabc"),
+            ("55", "aabcül")
+        ];
+        values.sort();
+        let new_values: Vec<(String, String)> = values.into_iter().map(|(x, y)| (x.into(), y.into())).collect();
+
+        let mit = Dictionary::new("fuzzy.kv").unwrap().get_fuzzy_completions("aafcül", 3);
+        let mut a: Vec<(String, String)> = mit.map(|m| (m.get_value_as_string(), m.matched_string())).collect();
+        a.sort();
+
+        assert_eq!(new_values, a);
+    }
 }

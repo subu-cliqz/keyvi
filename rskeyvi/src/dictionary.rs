@@ -43,6 +43,14 @@ impl Dictionary {
         KeyviMatchIterator::new(ptr)
     }
 
+    pub fn get_fuzzy_completions(&self, key: &str, max_edit_distance: usize) -> KeyviMatchIterator {
+        let key_c = CString::new(key).unwrap();
+        let ptr = unsafe {
+            root::keyvi_dictionary_get_fuzzy_completions(self.dict, key_c.as_ptr(), max_edit_distance)
+        };
+        KeyviMatchIterator::new(ptr)
+    }
+
     pub fn get_multi_word_completions(&self, key: &str, cutoff: usize) -> KeyviMatchIterator {
         let key_c = CString::new(key).unwrap();
         let ptr = unsafe {
