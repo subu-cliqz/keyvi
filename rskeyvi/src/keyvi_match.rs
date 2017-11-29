@@ -42,6 +42,12 @@ impl Into<(String, serde_json::Value)> for KeyviMatch {
     }
 }
 
+impl Into<(String, serde_json::Value, f64)> for KeyviMatch {
+    fn into(self) -> (String, serde_json::Value, f64) {
+        (self.matched_string(), self.get_value(), self.get_score())
+    }
+}
+
 impl Drop for KeyviMatch {
     fn drop(&mut self) {
         unsafe {
