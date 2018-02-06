@@ -36,6 +36,7 @@ using namespace keyvi::dictionary;
 namespace keyvi {
 namespace vector {
 
+template <fsa::internal::value_store_t value_store_type>
 class Vector final {
 public:
     explicit Vector(const std::string &filename) {
@@ -74,7 +75,7 @@ public:
         file_stream.seekg(size_t(file_stream.tellg()) + index_size);
 
         value_store_reader_.reset(
-                fsa::internal::ValueStoreFactory::MakeReader(fsa::internal::JSON_VALUE_STORE, file_stream,
+                fsa::internal::ValueStoreFactory::MakeReader(value_store_type, file_stream,
                                                              &file_mapping_, loading_strategy));
     }
 

@@ -10,3 +10,9 @@ cdef extern from "vector/vector.h" namespace "keyvi::vector":
         VectorJson (libcpp_utf8_string filename) except +
         libcpp_string get(size_t index)
         size_t size()
+
+cdef extern from "vector/vector.h" namespace "keyvi::vector":
+    cdef cppclass VectorString:
+        VectorString (libcpp_utf8_string filename) except +
+        libcpp_string get(size_t index)
+        size_t size()

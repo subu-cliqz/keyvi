@@ -32,7 +32,10 @@ namespace keyvi {
 namespace vector {
 
 using VectorJsonGenerator = keyvi::vector::VectorGenerator<fsa::internal::JsonValueStore>;
-using VectorJson = keyvi::vector::Vector;
+using VectorStringGenerator = keyvi::vector::VectorGenerator<fsa::internal::StringValueStore>;
+
+using VectorJson = keyvi::vector::Vector<fsa::internal::JSON_VALUE_STORE>;
+using VectorString = keyvi::vector::Vector<fsa::internal::STRING_VALUE_STORE>;
 
 
 } /* namespace dictionary */
