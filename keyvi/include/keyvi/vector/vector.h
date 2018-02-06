@@ -38,8 +38,8 @@ namespace vector {
 
 class Vector final {
 public:
-    explicit Vector(const std::string &filename,
-                    loading_strategy_types loading_strategy = loading_strategy_types::lazy) {
+    explicit Vector(const std::string &filename) {
+        loading_strategy_types loading_strategy = loading_strategy_types::lazy_no_readahead;
 
         std::ifstream file_stream(filename, std::ios::binary);
         if (!file_stream.good()) {
