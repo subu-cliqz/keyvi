@@ -52,11 +52,22 @@ public:
         const auto index_size = boost::lexical_cast<size_t>(properties_.get<std::string>("index_size"));
 
         file_mapping_ = boost::interprocess::file_mapping(filename.c_str(), boost::interprocess::read_only);
+
+//        int flags = 0;
+//
+//        flags |= MAP_SHARED;
+//
+//#ifdef MAP_NOSYNC
+//        flags |= MAP_NOSYNC
+//#endif
+
         const boost::interprocess::map_options_t map_options =
                 fsa::internal::MemoryMapFlags::FSAGetMemoryMapOptions(loading_strategy);
 
         index_region_ = boost::interprocess::mapped_region(file_mapping_, boost::interprocess::read_only,
                                                            file_stream.tellg(), index_size, 0, map_options);
+
+        index_region_.advise(boost::interprocess::mapped_region::advice_types::advice_random);
 
         index_ptr_ = static_cast<uint64_t *>(index_region_.get_address());
 

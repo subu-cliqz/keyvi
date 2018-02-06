@@ -310,6 +310,15 @@ class JsonValueStoreReader final : public IValueStoreReader {
     const size_t offset = stream.tellg();
     const size_t strings_size = boost::lexical_cast<size_t>(properties_.get<std::string>("size"));
 
+//    int flags = 0;
+//
+//    flags |= MAP_SHARED;
+//
+//#ifdef MAP_NOSYNC
+//    flags |= MAP_NOSYNC
+//#endif
+
+
     const boost::interprocess::map_options_t map_options =
         internal::MemoryMapFlags::ValuesGetMemoryMapOptions(loading_strategy);
 
@@ -318,7 +327,7 @@ class JsonValueStoreReader final : public IValueStoreReader {
 
     const auto advise = internal::MemoryMapFlags::ValuesGetMemoryMapAdvices(loading_strategy);
 
-    strings_region_->advise(advise);
+    strings_region_->advise(boost::interprocess::mapped_region::advice_types::advice_random);
 
     strings_ = (const char*)strings_region_->get_address();
   }
