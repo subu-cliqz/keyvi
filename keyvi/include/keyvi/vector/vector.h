@@ -54,14 +54,6 @@ public:
 
         file_mapping_ = boost::interprocess::file_mapping(filename.c_str(), boost::interprocess::read_only);
 
-//        int flags = 0;
-//
-//        flags |= MAP_SHARED;
-//
-//#ifdef MAP_NOSYNC
-//        flags |= MAP_NOSYNC
-//#endif
-
         const boost::interprocess::map_options_t map_options =
                 fsa::internal::MemoryMapFlags::FSAGetMemoryMapOptions(loading_strategy);
 
