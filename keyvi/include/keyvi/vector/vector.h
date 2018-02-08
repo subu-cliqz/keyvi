@@ -76,7 +76,7 @@ public:
 
         value_store_reader_.reset(
                 fsa::internal::ValueStoreFactory::MakeReader(value_store_type, file_stream,
-                                                             &file_mapping_, loading_strategy));
+                                                             &file_mapping_, loading_strategy_types::lazy_no_readahead));
     }
 
     std::string get(const size_t index) const {
