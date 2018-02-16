@@ -29,16 +29,18 @@
 #include "vector/vector.h"
 
 namespace keyvi {
-namespace vector {
+	namespace vector {
 
-using VectorJsonGenerator = keyvi::vector::VectorGenerator<fsa::internal::JsonValueStore>;
-using VectorStringGenerator = keyvi::vector::VectorGenerator<fsa::internal::StringValueStore>;
+		using VectorJsonGenerator = keyvi::vector::VectorGenerator<fsa::internal::JsonValueStore>;
+		using VectorStringGenerator = keyvi::vector::VectorGenerator<fsa::internal::StringValueStore>;
 
-using VectorJson = keyvi::vector::Vector<fsa::internal::JSON_VALUE_STORE>;
-using VectorString = keyvi::vector::Vector<fsa::internal::STRING_VALUE_STORE>;
+		using VectorJson = keyvi::vector::Vector<fsa::internal::JSON_VALUE_STORE>;
+		using VectorString = keyvi::vector::Vector<fsa::internal::STRING_VALUE_STORE>;
 
+		// shared pointer
+		typedef std::shared_ptr<VectorString> vector_t;
 
-} /* namespace dictionary */
+	} /* namespace dictionary */
 } /* namespace keyvi */
 
 #endif  // KEYVI_VECTOR_VECTOR_TYPES_H_

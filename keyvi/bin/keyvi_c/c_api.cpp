@@ -31,40 +31,49 @@
 #include "dictionary/dictionary.h"
 #include "dictionary/completion/prefix_completion.h"
 #include "dictionary/completion/multiword_completion.h"
+#include "vector/vector_types.h"
 
 
 using namespace keyvi::dictionary;
+using namespace keyvi::vector;
 
 namespace {
     char *
-    std_2_c_string(const std::string &str) {
-        const size_t c_str_length = str.size() + 1;
-        auto result = static_cast<char *>(malloc(c_str_length));
-        strncpy(result, str.c_str(), c_str_length);
-        return result;
-    }
+        std_2_c_string(const std::string &str) {
+            const size_t c_str_length = str.size() + 1;
+            auto result = static_cast<char *>(malloc(c_str_length));
+            strncpy(result, str.c_str(), c_str_length);
+            return result;
+        }
 }
 
 struct keyvi_dictionary {
     explicit keyvi_dictionary(const Dictionary &dictionary)
-            : obj_(new Dictionary(dictionary)) {}
+        : obj_(new Dictionary(dictionary)) {}
 
     dictionary_t obj_;
 };
 
 
+struct keyvi_vector_string {
+    explicit keyvi_vector_string(vector_t vector)
+        : obj_(vector)  {}
+
+    vector_t obj_;
+};
+
 struct keyvi_match {
 
     explicit keyvi_match(const Match &obj)
-            : obj_(obj) {}
+        : obj_(obj) {}
 
     Match obj_;
 };
 
 struct keyvi_match_iterator {
     explicit keyvi_match_iterator(const MatchIterator::MatchIteratorPair &obj)
-            : current_(obj.begin()),
-              end_(obj.end()) {}
+        : current_(obj.begin()),
+        end_(obj.end()) {}
 
     MatchIterator current_;
     const MatchIterator end_;
@@ -133,6 +142,34 @@ keyvi_dictionary_get_multi_word_completions(const keyvi_dictionary *dict, const 
 }
 
 
+//////////////////////
+//// Vector String
+//////////////////////
+keyvi_vector_string *
+keyvi_create_vector_string(const char *filename) {
+    try {
+        return new keyvi_vector_string(std::make_shared<VectorString>(filename));
+    } catch (const std::exception &e) {
+        std::cerr << e.what() << std::endl;
+        return nullptr;
+    }
+
+}
+
+void
+keyvi_vector_string_destroy(const struct keyvi_vector_string *vector) {
+    delete vector;
+}
+
+char *
+keyvi_vector_string_get(const struct keyvi_vector_string *vector,  const size_t index) {
+    return std_2_c_string(vector->obj_->get(index));
+}
+
+size_t
+keyvi_vector_string_get_size(const keyvi_vector_string *vector) {
+    return vector->obj_->size();
+}
 //////////////////////
 //// Match
 //////////////////////

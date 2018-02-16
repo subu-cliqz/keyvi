@@ -33,83 +33,98 @@ extern "C" {
 
 #include <stddef.h>
 
-struct keyvi_dictionary;
-struct keyvi_match;
-struct keyvi_match_iterator;
+	struct keyvi_;
+	struct keyvi_match;
+	struct keyvi_match_iterator;
 
-//////////////////////
-//// String
-//////////////////////
+	//////////////////////
+	//// String
+	//////////////////////
 
-void
-keyvi_string_destroy(char *str);
-
-
-//////////////////////
-//// Dictionary
-//////////////////////
-
-struct keyvi_dictionary *
-keyvi_create_dictionary(const char *);
-
-void
-keyvi_dictionary_destroy(const struct keyvi_dictionary *);
-
-size_t
-keyvi_dictionary_get_size(const struct keyvi_dictionary *);
-
-char *
-keyvi_dictionary_get_statistics(const struct keyvi_dictionary *);
-
-struct keyvi_match *
-keyvi_dictionary_get(const struct keyvi_dictionary *, const char *);
-
-struct keyvi_match_iterator *
-keyvi_dictionary_get_prefix_completions(const struct keyvi_dictionary *, const char *, size_t);
-
-struct keyvi_match_iterator *
-keyvi_dictionary_get_fuzzy_completions(const struct keyvi_dictionary *, const char *, size_t);
-
-struct keyvi_match_iterator *
-keyvi_dictionary_get_multi_word_completions(const struct keyvi_dictionary *, const char *, size_t);
+	void
+		keyvi_string_destroy(char *str);
 
 
-//////////////////////
-//// Match
-//////////////////////
+	//////////////////////
+	//// Dictionary
+	//////////////////////
 
-void
-keyvi_match_destroy(const struct keyvi_match *);
+	struct keyvi_dictionary *
+		keyvi_create_dictionary(const char *);
 
-bool
-keyvi_match_is_empty(const struct keyvi_match *);
+	void
+		keyvi_dictionary_destroy(const struct keyvi_dictionary *);
 
-double
-keyvi_match_get_score(const struct keyvi_match *);
+	size_t
+		keyvi_dictionary_get_size(const struct keyvi_dictionary *);
 
-char *
-keyvi_match_get_value_as_string(const struct keyvi_match *);
+	char *
+		keyvi_dictionary_get_statistics(const struct keyvi_dictionary *);
 
-char *
-keyvi_match_get_matched_string(const struct keyvi_match *);
+	struct keyvi_match *
+		keyvi_dictionary_get(const struct keyvi_dictionary *, const char *);
+
+	struct keyvi_match_iterator *
+		keyvi_dictionary_get_prefix_completions(const struct keyvi_dictionary *, const char *, size_t);
+
+	struct keyvi_match_iterator *
+		keyvi_dictionary_get_fuzzy_completions(const struct keyvi_dictionary *, const char *, size_t);
+
+	struct keyvi_match_iterator *
+		keyvi_dictionary_get_multi_word_completions(const struct keyvi_dictionary *, const char *, size_t);
 
 
-//////////////////////
-//// Match Iterator
-//////////////////////
+	//////////////////////
+	//// Vector
+	//////////////////////
+
+	struct keyvi_vector_string *
+		keyvi_create_vector_string(const char *);
+
+	void
+		keyvi_vector_string_destroy(const struct keyvi_vector_string *);
+
+	char *
+		keyvi_vector_string_get(const struct keyvi_vector_string *,  const size_t);
+
+	size_t
+		keyvi_vector_string_get_size(const struct keyvi_vector_string *);
+	//////////////////////
+	//// Match
+	//////////////////////
+
+	void
+		keyvi_match_destroy(const struct keyvi_match *);
+
+	bool
+		keyvi_match_is_empty(const struct keyvi_match *);
+
+	double
+		keyvi_match_get_score(const struct keyvi_match *);
+
+	char *
+		keyvi_match_get_value_as_string(const struct keyvi_match *);
+
+	char *
+		keyvi_match_get_matched_string(const struct keyvi_match *);
 
 
-void
-keyvi_match_iterator_destroy(const struct keyvi_match_iterator *);
+	//////////////////////
+	//// Match Iterator
+	//////////////////////
 
-bool
-keyvi_match_iterator_empty(const struct keyvi_match_iterator *);
 
-struct keyvi_match *
-keyvi_match_iterator_dereference(const struct keyvi_match_iterator *);
+	void
+		keyvi_match_iterator_destroy(const struct keyvi_match_iterator *);
 
-void
-keyvi_match_iterator_increment(struct keyvi_match_iterator *);
+	bool
+		keyvi_match_iterator_empty(const struct keyvi_match_iterator *);
+
+	struct keyvi_match *
+		keyvi_match_iterator_dereference(const struct keyvi_match_iterator *);
+
+	void
+		keyvi_match_iterator_increment(struct keyvi_match_iterator *);
 
 #ifdef __cplusplus
 } /* end extern "C" */
