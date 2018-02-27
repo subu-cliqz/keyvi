@@ -28,7 +28,6 @@ use std::ffi::CString;
 use keyvi_string::KeyviString;
 use bindings::*;
 
-#[derive(Clone)]
 pub struct StringVector {
     vec: *mut root::keyvi_vector_string,
 }
