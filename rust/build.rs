@@ -31,9 +31,9 @@ extern crate cmake;
 
 use std::env;
 use std::path::PathBuf;
-
+use cmake::Config;
 fn main() {
-    let dst = cmake::build("../");
+    let dst = Config::new("..").build_target("keyvi_c").build();
 
     // Tell cargo to tell rustc to link keyvi
     println!("cargo:rustc-link-lib=dylib=keyvi_c");
