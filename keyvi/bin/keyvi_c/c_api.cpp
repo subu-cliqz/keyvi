@@ -29,8 +29,13 @@
 #include "dictionary/completion/multiword_completion.h"
 #include "dictionary/completion/prefix_completion.h"
 #include "dictionary/dictionary.h"
+#include "vector/vector_types.h"
 
 using keyvi::dictionary::Dictionary;
+using keyvi::vector::string_vector_t;
+using keyvi::vector::StringVector;
+using keyvi::vector::json_vector_t;
+using keyvi::vector::JsonVector;
 using keyvi::dictionary::Match;
 using keyvi::dictionary::MatchIterator;
 using keyvi::dictionary::completion::MultiWordCompletion;
@@ -50,6 +55,20 @@ struct keyvi_dictionary {
   explicit keyvi_dictionary(const Dictionary& dictionary) : obj_(new Dictionary(dictionary)) {}
 
   dictionary_t obj_;
+};
+
+struct keyvi_string_vector {
+    explicit keyvi_string_vector(string_vector_t vector)
+        : obj_(vector)  {}
+
+    string_vector_t obj_;
+};
+
+struct keyvi_json_vector {
+    explicit keyvi_json_vector(json_vector_t vector)
+        : obj_(vector)  {}
+
+    json_vector_t obj_;
 };
 
 struct keyvi_match {
@@ -117,6 +136,56 @@ keyvi_match_iterator* keyvi_dictionary_get_multi_word_completions(const keyvi_di
                                                                   size_t cutoff) {
   MultiWordCompletion multiWordCompletion(dict->obj_);
   return new keyvi_match_iterator(multiWordCompletion.GetCompletions(key, cutoff));
+}
+
+//////////////////////
+//// String Vector
+//////////////////////
+keyvi_string_vector* keyvi_create_string_vector(const char* filename) {
+    try {
+        return new keyvi_string_vector(std::make_shared<StringVector>(filename));
+    } catch (const std::exception &e) {
+        std::cerr << e.what() << std::endl;
+        return nullptr;
+    }
+
+}
+
+void keyvi_string_vector_destroy(const struct keyvi_string_vector* vector) {
+    delete vector;
+}
+
+char* keyvi_string_vector_get(const struct keyvi_string_vector* vector,  const size_t index) {
+    return std_2_c_string(vector->obj_->Get(index));
+}
+
+size_t keyvi_string_vector_get_size(const keyvi_string_vector* vector) {
+    return vector->obj_->Size();
+}
+
+//////////////////////
+//// Json Vector
+//////////////////////
+keyvi_json_vector* keyvi_create_json_vector(const char* filename) {
+    try {
+        return new keyvi_json_vector(std::make_shared<JsonVector>(filename));
+    } catch (const std::exception &e) {
+        std::cerr << e.what() << std::endl;
+        return nullptr;
+    }
+
+}
+
+void keyvi_json_vector_destroy(const struct keyvi_json_vector* vector) {
+    delete vector;
+}
+
+char* keyvi_json_vector_get(const struct keyvi_json_vector* vector,  const size_t index) {
+    return std_2_c_string(vector->obj_->Get(index));
+}
+
+size_t keyvi_json_vector_get_size(const keyvi_json_vector* vector) {
+    return vector->obj_->Size();
 }
 
 //////////////////////
