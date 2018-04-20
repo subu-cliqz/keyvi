@@ -32,6 +32,8 @@ extern "C" {
 #include <stddef.h>
 
 struct keyvi_dictionary;
+struct keyvi_string_vector;
+struct keyvi_json_vector;
 struct keyvi_match;
 struct keyvi_match_iterator;
 
@@ -62,6 +64,31 @@ struct keyvi_match_iterator* keyvi_dictionary_get_fuzzy(const struct keyvi_dicti
 
 struct keyvi_match_iterator* keyvi_dictionary_get_multi_word_completions(const struct keyvi_dictionary*, const char*,
                                                                          size_t);
+
+//////////////////////
+//// String Vector
+//////////////////////
+
+struct keyvi_string_vector* keyvi_create_string_vector(const char*);
+
+void keyvi_string_vector_destroy(const struct keyvi_string_vector*);
+
+char* keyvi_string_vector_get(const struct keyvi_string_vector*,  const size_t);
+
+size_t keyvi_string_vector_get_size(const struct keyvi_string_vector*);
+
+
+//////////////////////
+//// Json Vector
+//////////////////////
+
+struct keyvi_json_vector* keyvi_create_json_vector(const char*);
+
+void keyvi_json_vector_destroy(const struct keyvi_json_vector*);
+
+char* keyvi_json_vector_get(const struct keyvi_json_vector*,  const size_t);
+
+size_t keyvi_json_vector_get_size(const struct keyvi_json_vector*);
 
 //////////////////////
 //// Match

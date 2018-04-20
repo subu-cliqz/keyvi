@@ -38,6 +38,10 @@ using StringVectorGenerator = VectorGenerator<dictionary::fsa::internal::StringV
 using JsonVector = Vector<value_store_t::JSON_VALUE_STORE>;
 using StringVector = Vector<value_store_t::STRING_VALUE_STORE>;
 
+// shared pointer
+typedef std::shared_ptr<StringVector> string_vector_t;
+typedef std::shared_ptr<JsonVector> json_vector_t;
+
 } /* namespace vector */
 } /* namespace keyvi */
 

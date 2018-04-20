@@ -7,6 +7,7 @@ extern crate keyvi;
 #[cfg(test)]
 mod tests {
     use keyvi::dictionary;
+    use keyvi::vector;
     use serde_json::Value;
     use rand;
     use rand::Rng;
@@ -186,5 +187,29 @@ mod tests {
         let parallel_values: Vec<Value> = keys.par_iter().map(|key| dictionary.get(key).get_value()).collect();
 
         assert_eq!(sequential_values, parallel_values);
+    }
+
+    #[test]
+    fn string_vector_error() {
+        let vec = vector::StringVector::new("test_data/fake_file_name.kv");
+        assert!(vec.is_err());
+    }
+
+    #[test]
+    fn string_vector_size() {
+        let vec = vector::StringVector::new("test_data/test_string_vector.kv").unwrap();
+        assert_eq!(vec.size(), 3);
+    }
+
+    #[test]
+    fn json_vector_error() {
+        let vec = vector::JsonVector::new("test_data/fake_file_name.kv");
+        assert!(vec.is_err());
+    }
+
+    #[test]
+    fn json_vector_size() {
+        let vec = vector::JsonVector::new("test_data/test_string_vector.kv").unwrap();
+        assert_eq!(vec.size(), 3);
     }
 }
