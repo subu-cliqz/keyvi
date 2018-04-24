@@ -52,7 +52,7 @@ class MultiWordCompletion final {
   MatchIterator::MatchIteratorPair GetCompletions(const std::string& query, size_t number_of_results = 10) const {
     uint64_t state = fsa_->GetStartState();
     size_t number_of_tokens;
-    std::string query_bow = util::Transform::BagOfWordsPartial(query, number_of_tokens);
+    std::string query_bow = query; //util::Transform::BagOfWordsPartial(query, number_of_tokens);
 
     TRACE("Query after bow: %s", query_bow.c_str());
 
