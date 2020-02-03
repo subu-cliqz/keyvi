@@ -27,6 +27,7 @@
 use bindings::*;
 use keyvi_string::KeyviString;
 use std::ffi::CString;
+use std::convert::TryInto;
 
 pub struct StringVector {
     vec: *mut root::keyvi_string_vector,
@@ -48,11 +49,11 @@ impl StringVector {
     }
 
     pub fn size(&self) -> usize {
-        unsafe { root::keyvi_string_vector_get_size(self.vec) }
+        unsafe { root::keyvi_string_vector_get_size(self.vec).try_into().unwrap() }
     }
 
     pub fn get(&self, key: usize) -> String {
-        let c_buf: *mut ::std::os::raw::c_char = unsafe { root::keyvi_string_vector_get(self.vec, key) };
+        let c_buf: *mut ::std::os::raw::c_char = unsafe { root::keyvi_string_vector_get(self.vec, key.try_into().unwrap()) };
         KeyviString::new(c_buf).to_owned()
     }
 }
@@ -86,11 +87,11 @@ impl JsonVector {
     }
 
     pub fn size(&self) -> usize {
-        unsafe { root::keyvi_json_vector_get_size(self.vec) }
+        unsafe { root::keyvi_json_vector_get_size(self.vec).try_into().unwrap() }
     }
 
     pub fn get(&self, key: usize) -> String {
-        let c_buf: *mut ::std::os::raw::c_char = unsafe { root::keyvi_json_vector_get(self.vec, key) };
+        let c_buf: *mut ::std::os::raw::c_char = unsafe { root::keyvi_json_vector_get(self.vec, key.try_into().unwrap()) };
         KeyviString::new(c_buf).to_owned()
     }
 }
