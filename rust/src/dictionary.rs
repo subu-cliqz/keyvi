@@ -31,6 +31,7 @@ use keyvi_string::KeyviString;
 use keyvi_match::KeyviMatch;
 use keyvi_match_iterator::KeyviMatchIterator;
 use bindings::*;
+use std::convert::TryInto;
 
 pub struct Dictionary {
     dict: *mut root::keyvi_dictionary,
@@ -57,7 +58,7 @@ impl Dictionary {
     }
 
     pub fn size(&self) -> usize {
-        unsafe { root::keyvi_dictionary_get_size(self.dict) }
+        unsafe { root::keyvi_dictionary_get_size(self.dict).try_into().unwrap() }
     }
 
     pub fn get(&self, key: &str) -> KeyviMatch {
@@ -69,7 +70,7 @@ impl Dictionary {
     pub fn get_prefix_completions(&self, key: &str, cutoff: usize) -> KeyviMatchIterator {
         let key_c = CString::new(key).unwrap();
         let ptr = unsafe {
-            root::keyvi_dictionary_get_prefix_completions(self.dict, key_c.as_ptr(), cutoff)
+            root::keyvi_dictionary_get_prefix_completions(self.dict, key_c.as_ptr(), cutoff.try_into().unwrap())
         };
         KeyviMatchIterator::new(ptr)
     }
@@ -77,7 +78,7 @@ impl Dictionary {
     pub fn get_fuzzy(&self, key: &str, max_edit_distance: usize) -> KeyviMatchIterator {
         let key_c = CString::new(key).unwrap();
         let ptr = unsafe {
-            root::keyvi_dictionary_get_fuzzy(self.dict, key_c.as_ptr(), max_edit_distance)
+            root::keyvi_dictionary_get_fuzzy(self.dict, key_c.as_ptr(), max_edit_distance.try_into().unwrap())
         };
         KeyviMatchIterator::new(ptr)
     }
@@ -85,7 +86,7 @@ impl Dictionary {
     pub fn get_multi_word_completions(&self, key: &str, cutoff: usize) -> KeyviMatchIterator {
         let key_c = CString::new(key).unwrap();
         let ptr = unsafe {
-            root::keyvi_dictionary_get_multi_word_completions(self.dict, key_c.as_ptr(), cutoff)
+            root::keyvi_dictionary_get_multi_word_completions(self.dict, key_c.as_ptr(), cutoff.try_into().unwrap())
         };
         KeyviMatchIterator::new(ptr)
     }
