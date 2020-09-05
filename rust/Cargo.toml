@@ -10,8 +10,8 @@ categories = ["data-structures", "algorithms", "external-ffi-bindings", "memory-
 keywords = ["big-data", "keyvaluestore", "fst", "search"]
 
 [build-dependencies]
-bindgen = ">=0.30.0"
-cmake = ">=0.1.29"
+bindgen = ">=0.55.1"
+cmake = ">=0.1.44"
 
 [dependencies]
 serde_json = "1.0"
